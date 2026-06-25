@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter_Tight } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const interTight = Inter_Tight({
@@ -45,6 +46,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-bg text-fg">
         <div className="animate-page-in">{children}</div>
+        <Analytics />
       </body>
     </html>
   );
