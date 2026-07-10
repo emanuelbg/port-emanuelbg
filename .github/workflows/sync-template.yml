@@ -24,14 +24,18 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           
-          # Cria uma ramificação separada só para testar as novidades
+          # Garante que qualquer tentativa de merge travada anterior seja cancelada e limpa
+          git merge --abort || true
+          git reset --hard HEAD
+          
+          # Cria a ramificação separada de forma limpa a partir da sua main atual
           git checkout -b template-updates
           
-          # Conecta ao template original (Ajuste a URL abaixo se necessário)
-          git remote add template https://github.com/felipeszarena/Template-fsza.works.git
+          # Conecta ao template original
+          git remote add template https://github.com/felipeszarena/Template-fsza.works.git || true
           git fetch template
           
-          # Tenta trazer as novidades do template. Se falhar por conflito, ele não quebra.
+          # Tenta trazer as novidades. Se houver conflito, o robô CONTINUA para criarmos a PR
           git merge template/main --allow-unrelated-histories -m "Chore: Atualizações vindas do template original" || true
 
       - name: Criar Pull Request de Revisão
