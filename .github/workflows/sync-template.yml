@@ -14,29 +14,21 @@ jobs:
 
     steps:
       - name: Checkout do seu código
-        uses: actions/checkout@v4.1.2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Criar branch de atualização e verificar mudanças
-        id: sync
+      - name: Configurar Git e buscar atualizações do template
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           
-          # Garante que qualquer tentativa de merge travada anterior seja cancelada e limpa
-          git merge --abort || true
-          git reset --hard HEAD
-          
-          # Cria a ramificação separada de forma limpa a partir da sua main atual
-          git checkout -b template-updates
-          
-          # Conecta ao template original
+          # Conecta ao template original do Felipe
           git remote add template https://github.com/felipeszarena/Template-fsza.works.git || true
           git fetch template
-          
-          # Tenta trazer as novidades. Se houver conflito, o robô CONTINUA para criarmos a PR
-          git merge template/main --allow-unrelated-histories -m "Chore: Atualizações vindas do template original" || true
+
+          # Cria uma nova branch local baseada PURAMENTE na branch do Felipe
+          git checkout -b template-updates template/main
 
       - name: Criar Pull Request de Revisão
         uses: peter-evans/create-pull-request@v6
@@ -47,6 +39,5 @@ jobs:
           body: |
             O robô encontrou atualizações no repositório original do template!
             
-            Revise as alterações na aba **Files changed** acima antes de aprovar.
-            Se houver conflitos, você poderá ver quais arquivos precisam de atenção.
+            Como existem arquivos modificados por você e pelo criador, revise as alterações na aba **Files changed** acima antes de aprovar.
           base: main
