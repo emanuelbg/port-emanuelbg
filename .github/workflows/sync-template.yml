@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
 
     steps:
       - name: Checkout do seu código
@@ -18,26 +17,24 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Configurar Git e buscar atualizações do template
+      - name: Sincronizar e Enviar Branch de Revisão
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           
-          # Conecta ao template original do Felipe
+          # 1. Garante que estamos na main atualizada
+          git checkout main
+          git pull origin main || true
+
+          # 2. Deleta a branch local antiga se ela existir para evitar conflitos de cache
+          git branch -D template-updates || true
+
+          # 3. Conecta ao template original do Felipe e baixa as novidades
           git remote add template https://github.com/felipeszarena/Template-fsza.works.git || true
           git fetch template
 
-          # Cria uma nova branch local baseada PURAMENTE na branch do Felipe
+          # 4. Cria a branch 'template-updates' idêntica à branch do Felipe
           git checkout -b template-updates template/main
 
-      - name: Criar Pull Request de Revisão
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: template-updates
-          title: "🔄 Novas atualizações disponíveis no Template Original"
-          body: |
-            O robô encontrou atualizações no repositório original do template!
-            
-            Como existem arquivos modificados por você e pelo criador, revise as alterações na aba **Files changed** acima antes de aprovar.
-          base: main
+          # 5. Força o envio dessa branch limpa para o SEU GitHub
+          git push origin template-updates --force
