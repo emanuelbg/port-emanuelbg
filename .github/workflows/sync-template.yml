@@ -1,36 +1,48 @@
-name: Sincronizar com o Template Original
+name: Monitorar Atualizações do Template
 
 on:
   schedule:
-    - cron: '0 0 * * 0' # Roda automaticamente todo domingo à meia-noite
-  workflow_dispatch: # Permite que você clique em um botão para rodar manualmente quando quiser
+    - cron: '0 0 * * 0' # Toda semana
+  workflow_dispatch: # Botão manual
 
 jobs:
-  sync:
+  check-updates:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
 
     steps:
       - name: Checkout do seu código
-        uses: actions/checkout@v4.1.2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Configurar identidade do Git
+      - name: Criar branch de atualização e verificar mudanças
+        id: sync
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-
-      - name: Adicionar repositório original e mesclar
-        run: |
-          # ADICIONE A URL DO TEMPLATE ORIGINAL ABAIXO (substitua a URL de exemplo)
+          
+          # Cria uma ramificação separada só para testar as novidades
+          git checkout -b template-updates
+          
+          # Conecta ao template original (Ajuste a URL abaixo se necessário)
           git remote add template https://github.com/felipeszarena/Template-fsza.works.git
           git fetch template
           
-          # Tenta fazer o merge automático usando a estratégia "ours" para não quebrar seus arquivos em caso de conflito simples
-          git merge template/main --allow-unrelated-histories -m "Chore: Sincronizando atualizações do template original" || true
+          # Tenta trazer as novidades do template. Se falhar por conflito, ele não quebra.
+          git merge template/main --allow-unrelated-histories -m "Chore: Atualizações vindas do template original" || true
 
-      - name: Enviar atualizações para o seu repositório
-        run: |
-          git push origin main
+      - name: Criar Pull Request de Revisão
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: template-updates
+          title: "🔄 Novas atualizações disponíveis no Template Original"
+          body: |
+            O robô encontrou atualizações no repositório original do template!
+            
+            Revise as alterações na aba **Files changed** acima antes de aprovar.
+            Se houver conflitos, você poderá ver quais arquivos precisam de atenção.
+          base: main
