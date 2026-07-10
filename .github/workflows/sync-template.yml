@@ -1,0 +1,36 @@
+name: Sincronizar com o Template Original
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Roda automaticamente todo domingo à meia-noite
+  workflow_dispatch: # Permite que você clique em um botão para rodar manualmente quando quiser
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout do seu código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar identidade do Git
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+
+      - name: Adicionar repositório original e mesclar
+        run: |
+          # ADICIONE A URL DO TEMPLATE ORIGINAL ABAIXO (substitua a URL de exemplo)
+          git remote add template https://github.com/felipeszarena/Template-fsza.works.git
+          git fetch template
+          
+          # Tenta fazer o merge automático usando a estratégia "ours" para não quebrar seus arquivos em caso de conflito simples
+          git merge template/main --allow-unrelated-histories -m "Chore: Sincronizando atualizações do template original" || true
+
+      - name: Enviar atualizações para o seu repositório
+        run: |
+          git push origin main
