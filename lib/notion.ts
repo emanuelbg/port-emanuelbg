@@ -1,6 +1,10 @@
 import { Client } from '@notionhq/client'
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+<<<<<<< HEAD
 import type { Project, GridSize } from './types'
+=======
+import type { Project, GridSize, ContentWidth, ProjectBlock } from './types'
+>>>>>>> template/main
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN })
 const DB_ID = process.env.NOTION_DATABASE_ID!
@@ -66,16 +70,53 @@ function getFileUrl(file: AnyProp): string | null {
   return null
 }
 
+<<<<<<< HEAD
 function safeJSON<T>(raw: string, fallback: T): T {
   try { return JSON.parse(raw) as T } catch { return fallback }
 }
 
+=======
+>>>>>>> template/main
 function firstFileProxy(files: AnyProp[]): string | null {
   if (!files?.length) return null
   const url = getFileUrl(files[0])
   return url ? notionImageProxy(url) : null
 }
 
+<<<<<<< HEAD
+=======
+function resolveFileUrl(file: AnyProp): string | null {
+  const url = getFileUrl(file)
+  if (!url) return null
+  return file.type === 'external' ? url : notionImageProxy(url)
+}
+
+function parseAwards(raw: string): AwardGroup[] {
+  const text = raw.trim()
+  if (!text) return []
+
+  try {
+    const parsed = JSON.parse(text)
+    if (Array.isArray(parsed)) {
+      const groups = parsed
+        .filter((g: AnyProp) => g && typeof g.group === 'string' && Array.isArray(g.items))
+        .map((g: AnyProp) => ({
+          group: g.group as string,
+          items: (g.items as unknown[]).filter((it): it is string => typeof it === 'string'),
+        }))
+        .filter(g => g.items.length > 0)
+      if (groups.length) return groups
+    }
+  } catch { /* not JSON */ }
+
+  return text
+    .split(/\n\s*\n/)
+    .map(block => block.split('\n').map(l => l.trim()).filter(Boolean))
+    .filter(lines => lines.length >= 2)
+    .map(lines => ({ group: lines[0], items: lines.slice(1) }))
+}
+
+>>>>>>> template/main
 // ── Portfolio Projects ─────────────────────────────────────
 
 function parseProject(page: PageObjectResponse): Project | null {
@@ -113,13 +154,27 @@ function parseProject(page: PageObjectResponse): Project | null {
       return p.checkbox === true
     }
 
+<<<<<<< HEAD
+=======
+    const getDate = (key: string): string => {
+      const p = getProp(key)
+      if (!p || p.type !== 'date') return ''
+      return str((p.date as AnyProp)?.start)
+    }
+
+>>>>>>> template/main
     const getFiles = (key: string): string[] => {
       const p = getProp(key)
       if (!p || p.type !== 'files') return []
       return (p.files as AnyProp[])
+<<<<<<< HEAD
         .map(getFileUrl)
         .filter((url): url is string => typeof url === 'string' && url.length > 0)
         .map(notionImageProxy)
+=======
+        .map(resolveFileUrl)
+        .filter((url): url is string => typeof url === 'string' && url.length > 0)
+>>>>>>> template/main
     }
 
     const cover = getFiles('Cover')[0] ?? null
@@ -130,16 +185,35 @@ function parseProject(page: PageObjectResponse): Project | null {
     const gridSize: GridSize = ['small', 'medium', 'large'].includes(rawGridSize)
       ? (rawGridSize as GridSize) : 'medium'
 
+<<<<<<< HEAD
+=======
+    const contentWidth: ContentWidth =
+      getSelect('Content_Width').toLowerCase() === 'full' ? 'full' : 'contained'
+
+>>>>>>> template/main
     return {
       id: page.id, title,
       client: getRichText('Client'),
       year: getNumber('Year'),
+<<<<<<< HEAD
       category: getSelect('Category'),
       slug: getRichText('Slug'),
       cover, media, videoUrls, gridSize,
       order: getNumber('Order'),
       published: getCheckbox('Published'),
       description: getRichText('Description'),
+=======
+      type: getSelect('Type'),
+      category: getSelect('Category'),
+      slug: getRichText('Slug'),
+      cover, media, videoUrls, gridSize, contentWidth,
+      order: getNumber('Order'),
+      published: getCheckbox('Published'),
+      isProtected: getRichText('Password').trim().length > 0,
+      description: getRichText('Description'),
+      publishedAt: getDate('Published_At') || page.created_time,
+      notifyDays: getNumber('Notify_Days') > 0 ? getNumber('Notify_Days') : 14,
+>>>>>>> template/main
     }
   } catch (err) {
     console.error('[notion] parseProject error on page', page.id, err)
@@ -185,6 +259,121 @@ export async function getAllSlugs(): Promise<string[]> {
   }
 }
 
+<<<<<<< HEAD
+=======
+export async function getProjectPassword(slug: string): Promise<string | null> {
+  try {
+    const response = await notion.databases.query({ database_id: DB_ID })
+    const page = (response.results as PageObjectResponse[]).find(p => {
+      const props = p.properties as Record<string, AnyProp>
+      const slugProp = props.Slug
+      if (!slugProp || slugProp.type !== 'rich_text') return false
+      const value = (slugProp.rich_text as Array<{ plain_text: string }>).map(t => t.plain_text).join('')
+      return value === slug
+    })
+    if (!page) return null
+
+    const props = page.properties as Record<string, AnyProp>
+    const pwProp = props.Password
+    if (!pwProp || pwProp.type !== 'rich_text') return null
+    const pw = (pwProp.rich_text as Array<{ plain_text: string }>).map(t => t.plain_text).join('').trim()
+    return pw.length > 0 ? pw : null
+  } catch (err) {
+    console.error('[notion] getProjectPassword error:', err)
+    return null
+  }
+}
+
+// ── Corpo da página (galeria rica: texto entre imagens) ────
+
+type BlockObject = { id: string; type: string; has_children?: boolean } & Record<string, AnyProp>
+
+function richTextToPlain(rt: unknown): string {
+  if (!Array.isArray(rt)) return ''
+  return (rt as Array<{ plain_text?: string }>).map(t => t.plain_text ?? '').join('')
+}
+
+async function listChildren(blockId: string): Promise<BlockObject[]> {
+  const blocks: BlockObject[] = []
+  let cursor: string | undefined
+  do {
+    const res = await notion.blocks.children.list({
+      block_id: blockId,
+      ...(cursor ? { start_cursor: cursor } : {}),
+      page_size: 100,
+    })
+    blocks.push(...(res.results as unknown as BlockObject[]))
+    cursor = res.has_more ? (res.next_cursor ?? undefined) : undefined
+  } while (cursor)
+  return blocks
+}
+
+async function parseBlockList(blockId: string): Promise<ProjectBlock[]> {
+  const blocks = await listChildren(blockId)
+  const out: ProjectBlock[] = []
+
+  for (const block of blocks) {
+    switch (block.type) {
+      case 'column_list': {
+        const columnBlocks = await listChildren(block.id)
+        const columns: ProjectBlock[][] = []
+        for (const col of columnBlocks) {
+          if (col.type === 'column') {
+            columns.push(await parseBlockList(col.id))
+          }
+        }
+        if (columns.some(c => c.length > 0)) out.push({ type: 'columns', columns })
+        break
+      }
+      case 'paragraph': {
+        const text = richTextToPlain((block.paragraph as AnyProp)?.rich_text).trim()
+        if (text) out.push({ type: 'text', text })
+        break
+      }
+      case 'heading_1':
+      case 'heading_2':
+      case 'heading_3': {
+        const level = (Number(block.type.split('_')[1]) as 1 | 2 | 3)
+        const text = richTextToPlain((block[block.type] as AnyProp)?.rich_text).trim()
+        if (text) out.push({ type: 'heading', level, text })
+        break
+      }
+      case 'image': {
+        const url = getFileUrl(block.image as AnyProp)
+        if (url) out.push({ type: 'image', src: notionImageProxy(url) })
+        break
+      }
+      case 'video': {
+        const v = block.video as AnyProp
+        const url = v?.type === 'external'
+          ? str((v.external as AnyProp)?.url)
+          : getFileUrl(v)
+        if (url) out.push({ type: 'video', url })
+        break
+      }
+      case 'embed': {
+        const url = str((block.embed as AnyProp)?.url)
+        if (url) out.push({ type: 'video', url })
+        break
+      }
+      default:
+        break
+    }
+  }
+
+  return out
+}
+
+export async function getProjectBlocks(pageId: string): Promise<ProjectBlock[]> {
+  try {
+    return await parseBlockList(pageId)
+  } catch (err) {
+    console.error('[notion] getProjectBlocks error:', err)
+    return []
+  }
+}
+
+>>>>>>> template/main
 // ── Bio ────────────────────────────────────────────────────
 
 type DbQuery = Parameters<typeof notion.databases.query>[0]
@@ -246,7 +435,11 @@ export async function getBio(): Promise<BioData | null> {
 
     const bioText = getAnyText('bio_text').split('\n').filter(Boolean)
     const capabilities = getMultiSelect('capabilities')
+<<<<<<< HEAD
     const awards = safeJSON<AwardGroup[]>(getAnyText('awards'), [])
+=======
+    const awards = parseAwards(getAnyText('awards'))
+>>>>>>> template/main
 
     // ── Experience DB
     const experience: ExperienceItem[] = expResults.map(page => {

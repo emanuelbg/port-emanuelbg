@@ -1,9 +1,21 @@
 import { notFound } from "next/navigation"
+<<<<<<< HEAD
 import Link from "next/link"
 import { getProjectBySlug, getAllSlugs } from "@/lib/notion"
 import { Header } from "@/components/Header"
 import { Footer } from "@/components/Footer"
 import { ProjectGallery } from "@/components/ProjectGallery"
+=======
+import { cookies } from "next/headers"
+import Link from "next/link"
+import { getProjectBySlug, getAllSlugs, getProjectBlocks } from "@/lib/notion"
+import { cookieName, verify } from "@/lib/project-unlock"
+import { Header } from "@/components/Header"
+import { Footer } from "@/components/Footer"
+import { ProjectGallery } from "@/components/ProjectGallery"
+import { PasswordGate } from "@/components/PasswordGate"
+import { IconArrowLeft } from "@/components/icons"
+>>>>>>> template/main
 
 export const revalidate = 3600
 
@@ -28,6 +40,18 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   if (!project) notFound()
 
+<<<<<<< HEAD
+=======
+  if (project.isProtected) {
+    const store = await cookies()
+    const unlocked = verify(project.id, store.get(cookieName(project.id))?.value)
+    if (!unlocked) return <PasswordGate slug={slug} />
+  }
+
+  const blocks = await getProjectBlocks(project.id)
+  const contained = project.contentWidth !== "full"
+
+>>>>>>> template/main
   const meta = [project.client, project.year || null, project.category]
     .filter(Boolean)
     .join(" · ")
@@ -36,6 +60,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     <>
       <Header />
       <main className="pt-24">
+<<<<<<< HEAD
         <div className="px-6 md:px-10 pb-10 flex flex-col md:flex-row md:justify-between md:items-start gap-6">
           <Link
             href="/"
@@ -48,12 +73,38 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             {meta && <p className="text-xs text-muted mt-2">{meta}</p>}
             {project.description && (
               <p className="text-sm text-fg/70 mt-3 max-w-md md:ml-auto">{project.description}</p>
+=======
+        <div
+          className={`pb-10 flex flex-col gap-6 ${
+            contained
+              ? "max-w-4xl mx-auto px-3 items-center"
+              : "px-6 md:px-10 items-start"
+          }`}
+        >
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 border border-border rounded-full px-4 py-1.5 text-xs hover:bg-white/5 transition-colors w-fit"
+          >
+            <IconArrowLeft size={14} /> Back
+          </Link>
+          <div className={contained ? "w-full text-center" : "text-left"}>
+            <h1 className="font-display text-3xl md:text-5xl font-light leading-tight">{project.title}</h1>
+            {meta && <p className="text-xs text-muted mt-2">{meta}</p>}
+            {project.description && (
+              <p className={`text-sm text-fg/70 mt-3 max-w-md ${contained ? "mx-auto" : ""}`}>
+                {project.description}
+              </p>
+>>>>>>> template/main
             )}
           </div>
         </div>
 
         <div className="px-3 pb-16">
+<<<<<<< HEAD
           <ProjectGallery media={project.media} videoUrls={project.videoUrls} />
+=======
+          <ProjectGallery media={project.media} videoUrls={project.videoUrls} blocks={blocks} contentWidth={project.contentWidth} />
+>>>>>>> template/main
         </div>
       </main>
       <Footer />

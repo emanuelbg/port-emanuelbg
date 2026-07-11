@@ -30,6 +30,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+<<<<<<< HEAD
     const res = await fetch(rawUrl)
     if (!res.ok) {
       return NextResponse.json({ error: 'Upstream error' }, { status: 502 })
@@ -44,6 +45,20 @@ export async function GET(request: NextRequest) {
         'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400',
       },
     })
+=======
+    const upstream = await fetch(rawUrl)
+    if (!upstream.ok || !upstream.body) {
+      return NextResponse.json({ error: 'Upstream error' }, { status: 502 })
+    }
+
+    const headers = new Headers()
+    headers.set('Content-Type', upstream.headers.get('content-type') ?? 'image/jpeg')
+    const len = upstream.headers.get('content-length')
+    if (len) headers.set('Content-Length', len)
+    headers.set('Cache-Control', 'public, max-age=31536000, s-maxage=31536000, immutable')
+
+    return new NextResponse(upstream.body, { status: 200, headers })
+>>>>>>> template/main
   } catch (err) {
     console.error('[notion-image] fetch error:', err)
     return NextResponse.json({ error: 'Failed to fetch image' }, { status: 502 })
