@@ -20,17 +20,12 @@ export function ProjectGrid({ projects }: ProjectGridProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [hasScrolled, setHasScrolled] = useState(false)
 
-<<<<<<< HEAD
-  useEffect(() => {
-    if (mode === 'horizontal') setHasScrolled(false)
-=======
   const prevMode = useRef(mode)
   useEffect(() => {
     if (prevMode.current !== mode && mode === 'horizontal') {
       setHasScrolled(false)
       prevMode.current = mode
     }
->>>>>>> template/main
   }, [mode])
 
   useEffect(() => {

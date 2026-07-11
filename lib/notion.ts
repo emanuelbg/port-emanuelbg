@@ -1,10 +1,6 @@
 import { Client } from '@notionhq/client'
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
-<<<<<<< HEAD
-import type { Project, GridSize } from './types'
-=======
 import type { Project, GridSize, ContentWidth, ProjectBlock } from './types'
->>>>>>> template/main
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN })
 const DB_ID = process.env.NOTION_DATABASE_ID!
@@ -70,21 +66,12 @@ function getFileUrl(file: AnyProp): string | null {
   return null
 }
 
-<<<<<<< HEAD
-function safeJSON<T>(raw: string, fallback: T): T {
-  try { return JSON.parse(raw) as T } catch { return fallback }
-}
-
-=======
->>>>>>> template/main
 function firstFileProxy(files: AnyProp[]): string | null {
   if (!files?.length) return null
   const url = getFileUrl(files[0])
   return url ? notionImageProxy(url) : null
 }
 
-<<<<<<< HEAD
-=======
 function resolveFileUrl(file: AnyProp): string | null {
   const url = getFileUrl(file)
   if (!url) return null
@@ -116,7 +103,6 @@ function parseAwards(raw: string): AwardGroup[] {
     .map(lines => ({ group: lines[0], items: lines.slice(1) }))
 }
 
->>>>>>> template/main
 // ── Portfolio Projects ─────────────────────────────────────
 
 function parseProject(page: PageObjectResponse): Project | null {
@@ -154,27 +140,18 @@ function parseProject(page: PageObjectResponse): Project | null {
       return p.checkbox === true
     }
 
-<<<<<<< HEAD
-=======
     const getDate = (key: string): string => {
       const p = getProp(key)
       if (!p || p.type !== 'date') return ''
       return str((p.date as AnyProp)?.start)
     }
 
->>>>>>> template/main
     const getFiles = (key: string): string[] => {
       const p = getProp(key)
       if (!p || p.type !== 'files') return []
       return (p.files as AnyProp[])
-<<<<<<< HEAD
-        .map(getFileUrl)
-        .filter((url): url is string => typeof url === 'string' && url.length > 0)
-        .map(notionImageProxy)
-=======
         .map(resolveFileUrl)
         .filter((url): url is string => typeof url === 'string' && url.length > 0)
->>>>>>> template/main
     }
 
     const cover = getFiles('Cover')[0] ?? null
@@ -185,24 +162,13 @@ function parseProject(page: PageObjectResponse): Project | null {
     const gridSize: GridSize = ['small', 'medium', 'large'].includes(rawGridSize)
       ? (rawGridSize as GridSize) : 'medium'
 
-<<<<<<< HEAD
-=======
     const contentWidth: ContentWidth =
       getSelect('Content_Width').toLowerCase() === 'full' ? 'full' : 'contained'
 
->>>>>>> template/main
     return {
       id: page.id, title,
       client: getRichText('Client'),
       year: getNumber('Year'),
-<<<<<<< HEAD
-      category: getSelect('Category'),
-      slug: getRichText('Slug'),
-      cover, media, videoUrls, gridSize,
-      order: getNumber('Order'),
-      published: getCheckbox('Published'),
-      description: getRichText('Description'),
-=======
       type: getSelect('Type'),
       category: getSelect('Category'),
       slug: getRichText('Slug'),
@@ -213,7 +179,6 @@ function parseProject(page: PageObjectResponse): Project | null {
       description: getRichText('Description'),
       publishedAt: getDate('Published_At') || page.created_time,
       notifyDays: getNumber('Notify_Days') > 0 ? getNumber('Notify_Days') : 14,
->>>>>>> template/main
     }
   } catch (err) {
     console.error('[notion] parseProject error on page', page.id, err)
@@ -259,8 +224,6 @@ export async function getAllSlugs(): Promise<string[]> {
   }
 }
 
-<<<<<<< HEAD
-=======
 export async function getProjectPassword(slug: string): Promise<string | null> {
   try {
     const response = await notion.databases.query({ database_id: DB_ID })
@@ -373,7 +336,6 @@ export async function getProjectBlocks(pageId: string): Promise<ProjectBlock[]> 
   }
 }
 
->>>>>>> template/main
 // ── Bio ────────────────────────────────────────────────────
 
 type DbQuery = Parameters<typeof notion.databases.query>[0]
@@ -435,11 +397,7 @@ export async function getBio(): Promise<BioData | null> {
 
     const bioText = getAnyText('bio_text').split('\n').filter(Boolean)
     const capabilities = getMultiSelect('capabilities')
-<<<<<<< HEAD
-    const awards = safeJSON<AwardGroup[]>(getAnyText('awards'), [])
-=======
     const awards = parseAwards(getAnyText('awards'))
->>>>>>> template/main
 
     // ── Experience DB
     const experience: ExperienceItem[] = expResults.map(page => {
