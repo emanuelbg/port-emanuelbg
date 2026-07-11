@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-interface ProjectGalleryProps {
-  media: string[]
-  videoUrls: string[]
-=======
 import type { ReactNode } from "react"
 import type { ProjectBlock, ContentWidth } from "@/lib/types"
 
@@ -19,23 +14,11 @@ function youtubeEmbed(id: string): string {
     controls: "1", rel: "0", modestbranding: "1", playsinline: "1",
   })
   return `https://www.youtube.com/embed/${id}?${p.toString()}`
->>>>>>> template/main
 }
 
 function getEmbedUrl(url: string): string | null {
   if (url.includes("youtube.com/watch")) {
     const id = new URL(url).searchParams.get("v")
-<<<<<<< HEAD
-    return id ? `https://www.youtube.com/embed/${id}` : null
-  }
-  if (url.includes("youtu.be/")) {
-    const id = url.split("youtu.be/")[1]?.split("?")[0]
-    return id ? `https://www.youtube.com/embed/${id}` : null
-  }
-  if (url.includes("vimeo.com/")) {
-    const id = url.split("vimeo.com/")[1]?.split("?")[0]
-    return id ? `https://player.vimeo.com/video/${id}` : null
-=======
     return id ? youtubeEmbed(id) : null
   }
   if (url.includes("youtu.be/")) {
@@ -57,14 +40,10 @@ function getEmbedUrl(url: string): string | null {
     })
     if (hashMatch) p.set("h", hashMatch[1])
     return `https://player.vimeo.com/video/${id}?${p.toString()}`
->>>>>>> template/main
   }
   return null
 }
 
-<<<<<<< HEAD
-export function ProjectGallery({ media, videoUrls }: ProjectGalleryProps) {
-=======
 function VideoEmbed({ url }: { url: string }) {
   const embedUrl = getEmbedUrl(url)
 
@@ -163,7 +142,6 @@ export function ProjectGallery({ media, videoUrls, blocks, contentWidth = "conta
   }
 
   /* ── MODO LEGADO (media + videoUrls) ──────────────────── */
->>>>>>> template/main
   const items: Array<{ type: "image"; src: string } | { type: "video"; url: string }> = []
 
   const totalMedia = media.length
@@ -179,28 +157,16 @@ export function ProjectGallery({ media, videoUrls, blocks, contentWidth = "conta
   }
 
   return (
-<<<<<<< HEAD
-    <div className="flex flex-col gap-2 md:gap-3">
-      {items.map((item, i) => {
-        if (item.type === "image") {
-          return (
-            <div key={i} className="relative w-full aspect-video overflow-hidden bg-border">
-=======
     <div className={wrapperCls}>
       {items.map((item, i) => {
         if (item.type === "image") {
           return (
             <div key={i} className="w-full overflow-hidden bg-border">
->>>>>>> template/main
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={item.src}
                 alt=""
-<<<<<<< HEAD
-                className="absolute inset-0 w-full h-full object-cover"
-=======
                 className="w-full h-auto block"
->>>>>>> template/main
                 loading="lazy"
               />
             </div>
@@ -222,11 +188,7 @@ export function ProjectGallery({ media, videoUrls, blocks, contentWidth = "conta
           )
         }
 
-<<<<<<< HEAD
-        if (item.url.endsWith(".mp4") || item.url.includes(".mp4")) {
-=======
         if (item.url.includes(".mp4")) {
->>>>>>> template/main
           return (
             <div key={i} className="w-full aspect-video">
               <video

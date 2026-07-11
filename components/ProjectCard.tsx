@@ -1,9 +1,6 @@
 import Link from "next/link"
 import type { Project } from "@/lib/types"
-<<<<<<< HEAD
-=======
 import { IconLock } from "@/components/icons"
->>>>>>> template/main
 
 interface ProjectCardProps {
   project: Project
@@ -31,23 +28,16 @@ export function ProjectCard({ project, fillHeight = false }: ProjectCardProps) {
         />
       )}
 
-<<<<<<< HEAD
-      {/* Fallback sem imagem no modo masonry */}
-=======
->>>>>>> template/main
       {!project.cover && !fillHeight && (
         <div className="w-full aspect-square bg-border" />
       )}
 
-<<<<<<< HEAD
-=======
       {project.isProtected && (
         <div className="absolute top-2 right-2 z-10 w-6 h-6 flex items-center justify-center rounded-full bg-black/50 backdrop-blur-sm text-fg/80">
           <IconLock size={12} aria-label="Projeto protegido" />
         </div>
       )}
 
->>>>>>> template/main
       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
         <p className="text-sm font-medium text-fg leading-tight">{project.title}</p>
         <p className="text-[10px] text-muted mt-0.5">
