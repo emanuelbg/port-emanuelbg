@@ -9,7 +9,7 @@ import { ProjectGallery } from "@/components/ProjectGallery"
 import { PasswordGate } from "@/components/PasswordGate"
 import { IconArrowLeft } from "@/components/icons"
 
-export const revalidate = 3600
+export const revalidate = 60
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs()
