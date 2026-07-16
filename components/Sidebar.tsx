@@ -65,7 +65,7 @@ export function Sidebar({ avatarUrl }: SidebarProps) {
         </div>
       </div>
 
-      {/* CTA */}
+      {/* CTA 
       <div className="border-t border-border">
         <Link
           href="/contact"
@@ -77,6 +77,7 @@ export function Sidebar({ avatarUrl }: SidebarProps) {
           </svg>
         </Link>
       </div>
+      */}
 
       {/* Redes sociais */}
       <div className="border-t border-border">
