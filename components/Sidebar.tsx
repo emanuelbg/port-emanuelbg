@@ -7,9 +7,10 @@ import { AvatarImage } from './AvatarImage'
 
 interface SidebarProps {
   avatarUrl?: string | null
+  openToWork?: boolean
 }
 
-export function Sidebar({ avatarUrl }: SidebarProps) {
+export function Sidebar({ avatarUrl, openToWork }: SidebarProps) {
   const [copied, setCopied] = useState(false)
 
   const name     = process.env.NEXT_PUBLIC_SITE_NAME  ?? ''
@@ -38,6 +39,17 @@ export function Sidebar({ avatarUrl }: SidebarProps) {
         <p className="text-sm font-medium text-fg leading-tight mt-3">{name}</p>
         <p className="text-xs text-muted mt-0.5">{role ? `${role}, ` : ''}</p>
         <p className="text-xs text-muted">{city ? `based in ${city}` : ''}</p>
+        <div className="flex items-center gap-1.5 mt-2.5">
+          <span className="relative flex h-1.5 w-1.5">
+            {openToWork && (
+              <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping" />
+            )}
+            <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${openToWork ? 'bg-green-400' : 'bg-red-400'}`} />
+          </span>
+          <span className="text-[10px] text-muted">
+            {openToWork ? 'Open to work' : 'Not open to new work'}
+          </span>
+        </div>
       </div>
 
       {/* Info + Email */}
