@@ -34,9 +34,10 @@ export function Sidebar({ avatarUrl }: SidebarProps) {
 
       {/* Identidade */}
       <div className="p-5 pb-4">
-        <AvatarImage src={avatarUrl} name={name} size={48} />
+        <AvatarImage src={avatarUrl} name={name} size={64} />
         <p className="text-sm font-medium text-fg leading-tight mt-3">{name}</p>
-        <p className="text-xs text-muted mt-0.5">{role}{city ? `, based in ${city}` : ''}</p>
+        <p className="text-xs text-muted mt-0.5">{role ? `${role}, ` : ''}</p>
+        <p className="text-xs text-muted">{city ? `based in ${city}` : ''}</p>
       </div>
 
       {/* Info + Email */}
@@ -116,6 +117,7 @@ export function Sidebar({ avatarUrl }: SidebarProps) {
             </a>
           </div>
         )}
+        {/*
         {twitter && (
           <div className="border-t border-border">
             <a
@@ -128,24 +130,8 @@ export function Sidebar({ avatarUrl }: SidebarProps) {
               <span className="text-muted/40 text-[10px]">↗</span>
             </a>
           </div>
-        )}
+        )}*/}
       </div>
-
-      {/* ── Crédito do template ───────────────────────────────────────
-          Backlink para a F&A Works. Para REMOVER o crédito do seu site,
-          basta apagar este bloco inteiro (do <div> ao </div>). */}
-      <div className="border-t border-border">
-        <a
-          href="https://templates.fsza.works"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-between px-5 py-3 text-[11px] text-muted/60 hover:text-fg hover:bg-white/[0.03] transition-colors"
-        >
-          <span>Template by F&amp;A</span>
-          <span className="text-muted/40 text-[10px]">↗</span>
-        </a>
-      </div>
-      {/* ── Fim do crédito do template ────────────────────────────── */}
 
       {/* Espaçador */}
       <div className="flex-1" />
