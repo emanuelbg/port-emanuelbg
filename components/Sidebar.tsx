@@ -44,10 +44,10 @@ export function Sidebar({ avatarUrl, openToWork }: SidebarProps) {
             {openToWork && (
               <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping" />
             )}
-            <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${openToWork ? 'bg-green-400' : ''}`} />
+            <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${openToWork}`} />
           </span>
           <span className="text-[10px] text-muted">
-            {openToWork ? 'Open to work' : ''}
+            {openToWork ?'Open to work' : ''}
           </span>
         </div>
       </div>
