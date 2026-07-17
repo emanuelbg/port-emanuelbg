@@ -20,7 +20,7 @@ export function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-between px-6 md:px-10 transition-all duration-300 ${
-        scrolled ? "bg-bg/85 backdrop-blur-md border-b border-border" : "bg-transparent"
+        scrolled ? "bg-blue-900/85 backdrop-blur-md border-b border-border" : "bg-transparent"
       }`}
     >
       <Link href="/" className="flex items-center gap-2 text-sm font-display font-light hover:opacity-70 transition-opacity">
@@ -37,13 +37,13 @@ export function Header() {
         <LayoutToggle />
         <Link
           href={`mailto:${contactEmail}`}
-          className="hidden md:inline-flex items-center gap-1 border border-border rounded-full px-4 py-1.5 text-xs hover:bg-white/5 transition-colors"
+          className="hidden md:inline-flex items-center gap-1 border border-border rounded-full px-4 py-1.5 text-xs hover:bg-blue-800 transition-colors"
         >
-          Send a message <span className="text-muted">↗</span>
+          Send an email <span className="text-muted">↗</span>
         </Link>
         <Link
           href="/bio"
-          className="inline-flex items-center border border-border rounded-full px-4 py-1.5 text-xs hover:bg-white/5 transition-colors"
+          className="inline-flex items-center border border-border rounded-full px-4 py-1.5 text-xs hover:bg-blue-800 transition-colors"
         >
           Info +
         </Link>

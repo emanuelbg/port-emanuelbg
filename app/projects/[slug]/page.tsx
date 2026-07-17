@@ -58,7 +58,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         >
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 border border-border rounded-full px-4 py-1.5 text-xs hover:bg-white/5 transition-colors w-fit"
+            className="inline-flex items-center gap-1.5 border border-border rounded-full px-4 py-1.5 text-xs hover:bg-blue-800 transition-colors w-fit"
           >
             <IconArrowLeft size={14} /> Back
           </Link>
