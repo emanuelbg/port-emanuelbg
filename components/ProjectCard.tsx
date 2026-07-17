@@ -38,9 +38,11 @@ export function ProjectCard({ project, fillHeight = false }: ProjectCardProps) {
         </div>
       )}
 
-      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
-        <p className="text-sm font-medium text-fg leading-tight">{project.title}</p>
-        <p className="text-[10px] text-muted mt-0.5">
+      <div className="absolute inset-0 bg-blue-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
+        <p className="text-sm font-medium text-fg leading-tight">{project.title}
+          <span className="text-accent font-light"> ↗ veja mais</span>
+        </p>
+        <p className="text-[10px] text-accent mt-0.5">
           {[project.client, project.year].filter(Boolean).join(' · ')}
         </p>
       </div>

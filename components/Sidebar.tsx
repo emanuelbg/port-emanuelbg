@@ -30,7 +30,7 @@ export function Sidebar({ avatarUrl }: SidebarProps) {
   }
 
   return (
-    <aside className="hidden md:flex fixed left-0 top-0 h-screen w-[280px] bg-bg border-r border-border flex-col z-40 overflow-y-auto [scrollbar-width:none]">
+    <aside className="hidden md:flex fixed left-0 top-0 h-screen w-70 bg-bg border-r border-border flex-col z-40 overflow-y-auto scrollbar:none]">
 
       {/* Identidade */}
       <div className="p-5 pb-4">
@@ -38,21 +38,32 @@ export function Sidebar({ avatarUrl }: SidebarProps) {
         <p className="text-sm font-medium text-fg leading-tight mt-3">{name}</p>
         <p className="text-xs text-muted mt-0.5">{role ? `${role}, ` : ''}</p>
         <p className="text-xs text-muted">{city ? `based in ${city}` : ''}</p>
+
+        {/* Open to work fixo */}
+        <div className="flex items-center gap-1.5 mt-2.5">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping" />
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-400" />
+          </span>
+          <span className="text-[10px] text-muted">
+            Open to work
+          </span>
+        </div>
       </div>
 
       {/* Info + Email */}
       <div className="border-t border-border">
         <Link
           href="/bio"
-          className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-white/[0.03] transition-colors"
+          className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors"
         >
           <span>Info</span>
-          <span className="text-muted/40">+</span>
+          <span className="text-accent/40">+</span>
         </Link>
         <div className="border-t border-border">
           <button
             onClick={copyEmail}
-            className="w-full flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-white/[0.03] transition-colors"
+            className="w-full flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors"
           >
             <span>{copied ? 'Copied!' : email}</span>
             {!copied && (
@@ -86,10 +97,10 @@ export function Sidebar({ avatarUrl }: SidebarProps) {
             href={linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-white/[0.03] transition-colors"
+            className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors"
           >
             <span>LinkedIn</span>
-            <span className="text-muted/40 text-[10px]">↗</span>
+            <span className="text-accent/40 text-[10px]">↗</span>
           </a>
         )}
         {behance && (
@@ -98,10 +109,10 @@ export function Sidebar({ avatarUrl }: SidebarProps) {
               href={behance}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-white/[0.03] transition-colors"
+              className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors"
             >
               <span>Behance</span>
-              <span className="text-muted/40 text-[10px]">↗</span>
+              <span className="text-accent/40 text-[10px]">↗</span>
             </a>
           </div>
         )}
@@ -111,27 +122,26 @@ export function Sidebar({ avatarUrl }: SidebarProps) {
               href={instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-white/[0.03] transition-colors"
+              className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors"
             >
               <span>Instagram</span>
-              <span className="text-muted/40 text-[10px]">↗</span>
+              <span className="text-accent/40 text-[10px]">↗</span>
             </a>
           </div>
         )}
-        {/*
         {twitter && (
           <div className="border-t border-border">
             <a
               href={twitter}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-white/[0.03] transition-colors"
+              className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors"
             >
               <span>Twitter</span>
-              <span className="text-muted/40 text-[10px]">↗</span>
+              <span className="text-accent/40 text-[10px]">↗</span>
             </a>
           </div>
-        )}*/}
+        )}
       </div>
 
       {/* Espaçador */}

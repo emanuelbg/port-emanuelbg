@@ -28,7 +28,7 @@ export function SidebarContact({ avatarUrl, openToWork }: SidebarContactProps) {
   }
 
   return (
-    <aside className="hidden md:flex fixed left-0 top-0 h-screen w-[280px] bg-bg border-r border-border flex-col z-40">
+    <aside className="hidden md:flex fixed left-0 top-0 h-screen w-70 bg-bg border-r border-border flex-col z-40">
 
       {/* Identidade */}
       <div className="p-5 pb-4">
@@ -53,7 +53,7 @@ export function SidebarContact({ avatarUrl, openToWork }: SidebarContactProps) {
       <div className="border-t border-border">
         <Link
           href="/"
-          className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-white/[0.03] transition-colors group"
+          className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors group"
         >
           <span>Go back</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="opacity-40 group-hover:opacity-80 transition-opacity rotate-180">
@@ -66,7 +66,7 @@ export function SidebarContact({ avatarUrl, openToWork }: SidebarContactProps) {
       <div className="border-t border-border">
         <button
           onClick={copyEmail}
-          className="w-full flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-white/[0.03] transition-colors"
+          className="w-full flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors"
         >
           <span>{copied ? 'Copied!' : 'Email'}</span>
           {!copied && (
@@ -85,7 +85,7 @@ export function SidebarContact({ avatarUrl, openToWork }: SidebarContactProps) {
             href={meetingUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-white/[0.03] transition-colors"
+            className="w-full flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors"
           >
             <span>Meeting call</span>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="opacity-40 flex-shrink-0">

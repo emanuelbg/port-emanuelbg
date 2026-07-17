@@ -96,11 +96,7 @@ Você tem **dois caminhos** para criar esses bancos:
 
 ### Caminho A (recomendado): duplicar o modelo pronto
 
-<<<<<<< HEAD
-1. Abra o modelo de Notion: **[Modelo de portfólio (Notion)](https://app.notion.com/p/Db_Felipe_Template_Folio-37d21b31c720806284b5f26a811408b4?source=copy_link)**
-=======
 1. Abra o modelo de Notion: **[Modelo de portfólio (Notion)](https://statuesque-tulip-560.notion.site/Db_Felipe_Template_Folio-37d21b31c720806284b5f26a811408b4?pvs=74)**
->>>>>>> template/main
 2. Clique em **"Duplicar"** (canto superior direito). Os bancos vão para o seu Notion já com as colunas certas.
 3. Pule para o item **4.1 (criar a integração)** abaixo.
 
