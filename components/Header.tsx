@@ -20,7 +20,7 @@ export function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-between px-6 md:px-10 transition-all duration-300 ${
-        scrolled ? "bg-blue-900/85 backdrop-blur-md border-b border-border" : "bg-transparent"
+        scrolled ? "bg-bg/85 backdrop-blur-md border-b border-border" : "bg-transparent"
       }`}
     >
       <Link href="/" className="flex items-center gap-2 text-sm font-display font-light hover:opacity-70 transition-opacity">
