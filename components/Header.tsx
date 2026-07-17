@@ -39,7 +39,7 @@ export function Header() {
           href={`mailto:${contactEmail}`}
           className="hidden md:inline-flex items-center gap-1 border border-border rounded-full px-4 py-1.5 text-xs hover:bg-blue-800 transition-colors"
         >
-          Send an email <span className="text-muted">↗</span>
+          Send an email <span className="text-accent">↗</span>
         </Link>
         <Link
           href="/bio"
