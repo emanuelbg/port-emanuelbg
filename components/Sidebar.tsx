@@ -4,12 +4,18 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { Clock } from './Clock'
 import { AvatarImage } from './AvatarImage'
+// 1. Adicionamos os imports dos componentes
+import { BioText } from '@/components/bio/BioText'
+import { Capabilities } from '@/components/bio/Capabilities'
 
+// 2. Adicionamos bioText e capabilities na tipagem das props
 interface SidebarProps {
   avatarUrl?: string | null
+  bioText?: any[]
+  capabilities?: any[]
 }
 
-export function Sidebar({ avatarUrl }: SidebarProps) {
+export function Sidebar({ avatarUrl, bioText = [], capabilities = [] }: SidebarProps) {
   const [copied, setCopied] = useState(false)
 
   const name     = process.env.NEXT_PUBLIC_SITE_NAME  ?? ''
@@ -51,6 +57,14 @@ export function Sidebar({ avatarUrl }: SidebarProps) {
         </div>
       </div>
 
+      {/* 3. Renderizamos a Bio e as Capabilities aqui (com um pequeno espaçamento) */}
+      {(bioText.length > 0 || capabilities.length > 0) && (
+        <div className="px-5 pb-5 flex flex-col gap-1">
+          {bioText.length > 0 && <BioText paragraphs={bioText} />}
+          {capabilities.length > 0 && <Capabilities items={capabilities} />}
+        </div>
+      )}
+
       {/* Info + Email */}
       <div className="border-t border-border">
         <Link
@@ -76,69 +90,31 @@ export function Sidebar({ avatarUrl }: SidebarProps) {
         </div>
       </div>
 
-      {/* CTA 
-      <div className="border-t border-border">
-        <Link
-          href="/contact"
-          className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-white/[0.03] transition-colors group"
-        >
-          <span>Send me a message</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="opacity-40 group-hover:opacity-80 transition-opacity">
-            <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </Link>
-      </div>
-      */}
-
       {/* Redes sociais */}
       <div className="border-t border-border">
         {linkedin && (
-          <a
-            href={linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors"
-          >
-            <span>LinkedIn</span>
-            <span className="text-accent/40 text-[10px]">↗</span>
+          <a href={linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors">
+            <span>LinkedIn</span><span className="text-accent/40 text-[10px]">↗</span>
           </a>
         )}
         {behance && (
           <div className="border-t border-border">
-            <a
-              href={behance}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors"
-            >
-              <span>Behance</span>
-              <span className="text-accent/40 text-[10px]">↗</span>
+            <a href={behance} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors">
+              <span>Behance</span><span className="text-accent/40 text-[10px]">↗</span>
             </a>
           </div>
         )}
         {instagram && (
           <div className="border-t border-border">
-            <a
-              href={instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors"
-            >
-              <span>Instagram</span>
-              <span className="text-accent/40 text-[10px]">↗</span>
+            <a href={instagram} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors">
+              <span>Instagram</span><span className="text-accent/40 text-[10px]">↗</span>
             </a>
           </div>
         )}
         {twitter && (
           <div className="border-t border-border">
-            <a
-              href={twitter}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors"
-            >
-              <span>Twitter</span>
-              <span className="text-accent/40 text-[10px]">↗</span>
+            <a href={twitter} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors">
+              <span>Twitter</span><span className="text-accent/40 text-[10px]">↗</span>
             </a>
           </div>
         )}
@@ -148,7 +124,7 @@ export function Sidebar({ avatarUrl }: SidebarProps) {
       <div className="flex-1" />
 
       {/* Footer */}
-      <div className="border-t border-border px-5 py-4 flex items-center justify-between">
+      <div className="border-t border-border px-5 py-4 flex items-center justify-between mt-auto">
         <span className="text-[10px] text-muted/50">© {year}</span>
         <div className="flex items-center gap-2 text-[10px] text-muted/50 font-mono uppercase tracking-wider">
           {cityCode && <span>{cityCode}</span>}

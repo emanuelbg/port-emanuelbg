@@ -17,9 +17,14 @@ export default async function HomePage() {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar avatarUrl={bio?.avatarUrl} />
+      {/* Aqui é a única mudança! Passando o bioText e capabilities para a Sidebar */}
+      <Sidebar 
+        avatarUrl={bio?.avatarUrl} 
+        bioText={bio?.bioText ?? []}
+        capabilities={bio?.capabilities ?? []}
+      />
 
-      <main className="md:ml-[280px] flex-1 min-w-0">
+      <main className="md:ml-70 flex-1 min-w-0">
         {/* Header mobile */}
         <header className="md:hidden flex items-center justify-between px-4 py-3 border-b border-border sticky top-0 z-40 bg-bg">
           <div className="flex items-center gap-3">
