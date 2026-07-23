@@ -74,13 +74,6 @@ export function Sidebar({ avatarUrl, bioText = [], capabilities = [] }: SidebarP
           <span>Info</span>
           <span className="text-accent/40">+</span>
         </Link>
-        <Link
-          href="https://bit.ly/port-emanuelbg"
-          className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors"
-        >
-          <span className="text-accent/40">+</span>
-          <span>Projects</span>
-        </Link>
         <div className="border-t border-border">
           <button
             onClick={copyEmail}
@@ -99,6 +92,9 @@ export function Sidebar({ avatarUrl, bioText = [], capabilities = [] }: SidebarP
 
       {/* Redes sociais */}
       <div className="border-t border-border">
+        <a href="https://bit.ly/port-emanuelbg" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors">
+            <span>Other Projects</span><span className="text-accent/40 text-[10px]">↗</span>
+          </a>
         {linkedin && (
           <a href={linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors">
             <span>LinkedIn</span><span className="text-accent/40 text-[10px]">↗</span>
