@@ -46,7 +46,7 @@ export default async function BioPage() {
         </div>
       </div>
 
-     {/* Col 2: Bio + Capabilities 
+     {/* Col 2: Bio + Capabilities */}
       <div className="md:ml-[280px] w-full md:w-[320px] flex-shrink-0 border-b md:border-b-0 md:border-r border-border flex flex-col mt-[49px] md:mt-0">
         <div className="p-6 border-b border-border">
           <p className="text-[10px] text-muted/50 uppercase tracking-widest mb-4">Info</p>
@@ -54,29 +54,29 @@ export default async function BioPage() {
           <Capabilities items={bio?.capabilities ?? []} />
         </div>
       </div>
-      */}
       
+      {/* Col 2: Experience + Awards 
       <div className="md:ml-[280px] w-full md:w-[320px] flex-shrink-0 border-b md:border-b-0 md:border-r border-border flex flex-col mt-[49px] md:mt-0">
         <Experience items={bio?.experience ?? []} />
         <Awards groups={bio?.awards ?? []} />
       </div>
-
+      */}
       {/* Col 3: Experience + Awards */}
       {hasCol3 && (
         <div className="w-full md:w-[320px] flex-shrink-0 border-b md:border-b-0 md:border-r border-border flex flex-col">
-          <RelevantProjects items={bio?.relevantProjects ?? []} />
-          <Clients items={bio?.clients ?? []} />
+          <Experience items={bio?.experience ?? []} />
+          <Awards groups={bio?.awards ?? []} />
         </div>
       )}
 
-      {/* Col 4: Relevant Projects + Clients 
+      {/* Col 4: Relevant Projects + Clients */}
       {hasCol4 && (
         <div className="flex-1 flex flex-col md:border-r border-border">
           <RelevantProjects items={bio?.relevantProjects ?? []} />
           <Clients items={bio?.clients ?? []} />
         </div>
       )}
-      */}
+      
 
     </div>
   )
