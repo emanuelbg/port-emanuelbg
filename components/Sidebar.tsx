@@ -92,13 +92,15 @@ export function Sidebar({ avatarUrl, bioText = [], capabilities = [] }: SidebarP
 
       {/* Redes sociais */}
       <div className="border-t border-border">
-        <a href="https://bit.ly/port-emanuelbg" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors">
+          <a href="https://bit.ly/port-emanuelbg" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors">
             <span>Other Projects</span><span className="text-accent/40 text-[10px]">↗</span>
           </a>
         {linkedin && (
-          <a href={linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors">
-            <span>LinkedIn</span><span className="text-accent/40 text-[10px]">↗</span>
-          </a>
+          <div className="border-t border-border">
+            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors">
+              <span>LinkedIn</span><span className="text-accent/40 text-[10px]">↗</span>
+            </a>
+          </div>
         )}
         {behance && (
           <div className="border-t border-border">
