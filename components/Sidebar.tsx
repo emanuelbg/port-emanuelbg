@@ -36,7 +36,7 @@ export function Sidebar({ avatarUrl, bioText = [], capabilities = [] }: SidebarP
   }
 
   return (
-    <aside className="hidden md:flex fixed left-0 top-0 h-screen w-70 bg-bg border-r border-border flex-col z-40 overflow-y-auto scrollbar:none]">
+    <aside className="hidden md:flex fixed left-0 top-0 h-screen w-70 bg-bg border-r border-border flex-col z-40 overflow-y-auto scrollbar:none">
 
       {/* Identidade */}
       <div className="p-5 pb-4">
