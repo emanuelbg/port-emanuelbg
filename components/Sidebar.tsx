@@ -36,7 +36,7 @@ export function Sidebar({ avatarUrl, bioText = [], capabilities = [] }: SidebarP
   }
 
   return (
-    <aside className="hidden md:flex fixed left-0 top-0 h-screen w-70 bg-bg border-r border-border flex-col z-40 overflow-y-auto scrollbar:none">
+    <aside className="hidden md:flex fixed left-0 top-0 h-screen w-70 bg-bg border-r border-border flex-col z-40 overflow-y-auto scrollbar:none]">
 
       {/* Identidade */}
       <div className="p-5 pb-4">
@@ -116,6 +116,7 @@ export function Sidebar({ avatarUrl, bioText = [], capabilities = [] }: SidebarP
             </a>
           </div>
         )}
+        {/*}
         {twitter && (
           <div className="border-t border-border">
             <a href={twitter} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors">
@@ -123,8 +124,9 @@ export function Sidebar({ avatarUrl, bioText = [], capabilities = [] }: SidebarP
             </a>
           </div>
         )}
+        */}
       </div>
-
+          
       {/* Espaçador */}
       <div className="flex-1" />
 
