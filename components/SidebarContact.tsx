@@ -68,7 +68,7 @@ export function SidebarContact({ avatarUrl, openToWork }: SidebarContactProps) {
           onClick={copyEmail}
           className="w-full flex items-center justify-between px-5 py-3 text-xs text-muted hover:text-fg hover:bg-blue-800 transition-colors"
         >
-          <span>{copied ? 'Copied!' : 'Email'}</span>
+          <span>{copied ? 'Copied!' : email}</span>
           {!copied && (
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="opacity-40 flex-shrink-0">
               <rect x="4" y="4" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.1"/>

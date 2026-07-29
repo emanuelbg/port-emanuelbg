@@ -38,7 +38,7 @@ export default async function BioPage() {
         </div>
         <div className="flex items-center gap-2">
           <Link href="/contact" className="border border-border rounded-full px-3 py-1.5 text-xs hover:bg-white/5 transition-colors">
-            Message
+            Let's talk
           </Link>
           <Link href="/" className="border border-border rounded-full px-3 py-1.5 text-xs hover:bg-white/5 transition-colors">
             ← Back

@@ -2,7 +2,11 @@ import { getProjects, getBio } from "@/lib/notion"
 import { Sidebar } from "@/components/Sidebar"
 import { ProjectGrid } from "@/components/ProjectGrid"
 import { LayoutToggle } from "@/components/LayoutToggle"
+import { HomeMobileHeader } from "@/components/HomeMobileHeader" // Vamos separar a interatividade mobile
 import { AvatarImage } from "@/components/AvatarImage"
+// 1. Importar os componentes da Bio
+import { BioText } from "@/components/bio/BioText"
+import { Capabilities } from "@/components/bio/Capabilities"
 import Link from "next/link"
 
 export const revalidate = 60
@@ -15,41 +19,29 @@ export const metadata = {
 export default async function HomePage() {
   const [projects, bio] = await Promise.all([getProjects(), getBio()])
 
+  const bioText = bio?.bioText ?? []
+  const capabilities = bio?.capabilities ?? []
+  const hasBioContent = bioText.length > 0 || capabilities.length > 0
+
   return (
     <div className="flex min-h-screen">
-      {/* Aqui é a única mudança! Passando o bioText e capabilities para a Sidebar */}
+      {/* Sidebar continua oculta no mobile e visível apenas no desktop */}
       <Sidebar 
         avatarUrl={bio?.avatarUrl} 
-        bioText={bio?.bioText ?? []}
-        capabilities={bio?.capabilities ?? []}
+        bioText={bioText}
+        capabilities={capabilities}
       />
 
       <main className="md:ml-70 flex-1 min-w-0">
-        {/* Header mobile */}
-        <header className="md:hidden flex items-center justify-between px-4 py-3 border-b border-border sticky top-0 z-40 bg-bg">
-          <div className="flex items-center gap-3">
-            <AvatarImage src={bio?.avatarUrl} name={process.env.NEXT_PUBLIC_SITE_NAME ?? ''} size={36} />
-            <div>
-              <p className="text-sm font-medium">{process.env.NEXT_PUBLIC_SITE_NAME}</p>
-              <p className="text-[10px] text-muted">{process.env.NEXT_PUBLIC_SITE_ROLE}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <LayoutToggle />
-            <Link href="/contact" className="border border-border rounded-full px-3 py-1.5 text-xs hover:bg-white/5 transition-colors">
-              Message
-            </Link>
-            <Link href="/bio" className="border border-border rounded-full px-3 py-1.5 text-xs hover:bg-white/5 transition-colors">
-              Info +
-            </Link>
-          </div>
-        </header>
+        {/* Header e Bio Mobile com estado de Toggle */}
+        <HomeMobileHeader bio={bio} />
 
         {/* Barra de toggle desktop */}
         <div className="hidden md:flex sticky top-0 z-30 justify-end px-3 py-2 bg-bg/80 backdrop-blur-sm border-b border-border">
           <LayoutToggle />
         </div>
 
+        {/* Grid de Projetos seguros contra undefined */}
         <ProjectGrid projects={projects} />
       </main>
     </div>
